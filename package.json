@@ -16,14 +16,20 @@
 	"engines": {
 		"node": ">=8"
 	},
-	"files": ["index.js"],
-	"keywords": [""],
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		""
+	],
 	"dependencies": {
 		"socket.io": "^2.0.4"
 	},
 	"devDependencies": {
 		"eslint": "^4.10.0",
 		"eslint-plugin-node": "^5.2.1",
+		"pify": "^3.0.0",
+		"pryjs": "^1.0.3",
 		"socket.io-client": "^2.0.4"
 	}
 }
