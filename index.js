@@ -2,11 +2,11 @@
 
 const gio = require('./src')
 
-const port = parseInt(process.argv[1]) || 8080
+const { PORT = 80 } = process.env
 const ns = '/base'
 
-gio(port, ns)
+gio(PORT, ns)
 console.log(`WebSocket server start!
-port: ${port}
+port: ${PORT}
 namespace: ${ns}
 `)
