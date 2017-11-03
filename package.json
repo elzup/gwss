@@ -9,20 +9,21 @@
 		"email": "guild0105@gmail.com",
 		"url": "elzup.com"
 	},
+	"scripts": {
+		"start": "node index.js",
+		"test": "mocha"
+	},
 	"engines": {
 		"node": ">=8"
-	},
-	"scripts": {
-		"start": "node index.js"
 	},
 	"files": ["index.js"],
 	"keywords": [""],
 	"dependencies": {
-		"socketio-wildcard": "^2.0.0"
+		"socket.io": "^2.0.4"
 	},
 	"devDependencies": {
 		"eslint": "^4.10.0",
 		"eslint-plugin-node": "^5.2.1",
-		"socket.io": "^2.0.4"
+		"socket.io-client": "^2.0.4"
 	}
 }
