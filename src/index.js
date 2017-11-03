@@ -23,7 +23,7 @@ function gio(port, ns) {
 
 		socket.on('disconnect', packet => {
 			console.log(packet)
-			socket.to(store.room).emit('msg', { event: 'disconnected', id })
+			socket.to(store.room).emit('msg', { event: 'disconnect', id })
 			console.log('dis : ' + id)
 		})
 	})
