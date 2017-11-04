@@ -10,12 +10,8 @@
 Client1
 
 ```js
-
 const io = require('socket.io-client')
-
-// const url = 'http://localhost:8080/base'
-const url = 'https://u01vimvz6l.execute-api.ap-northeast-1.amazonaws.com/development/base'
-// const url = 'https://smasketch.elzup.com'
+const url = '{{host}}/base'
 const socket = io(url)
 
 socket.on('connect', () => {
@@ -33,10 +29,7 @@ Client2
 
 ```js
 const io = require('socket.io-client')
-
-// const url = 'http://localhost:8080/base'
 const url = '{{host}}/base'
-
 const socket = io(url)
 
 socket.on('connect', () => {
