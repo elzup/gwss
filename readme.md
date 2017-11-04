@@ -1,43 +1,51 @@
-# smasketch-server [![Build Status](https://travis-ci.org/elzup/SmaSketch-server.svg?branch=master)](https://travis-ci.org/elzup/SmaSketch-server)
+# gwss [![Build Status](https://travis-ci.org/elzup/gwss.svg?branch=master)](https://travis-ci.org/elzup/gwss)
 
-> SmaSketch node socket server
-
-
-## Install
-
-```
-$ npm install --save smasketch-server
-```
+> General purpose WebSocket Server
 
 
-## Usage
+
+
+## Client usage
+
+Client1
 
 ```js
-const smasketchServer = require('smasketch-server');
 
-smasketchServer('unicorns');
-//=> 'unicorns & rainbows'
+const io = require('socket.io-client')
+
+// const url = 'http://localhost:8080/base'
+const url = 'https://u01vimvz6l.execute-api.ap-northeast-1.amazonaws.com/development/base'
+// const url = 'https://smasketch.elzup.com'
+const socket = io(url)
+
+socket.on('connect', () => {
+	socket.emit('join', { room: "play1", profile: { b: 'c'} })
+	socket.on('msg', data => {
+		console.log(data)
+		// on Client2 emitted.
+		// { a: 'b', b: 'c' }
+	})
+})
+
 ```
 
+Client2
 
-## API
+```js
+const io = require('socket.io-client')
 
-### smasketchServer(input, [options])
+// const url = 'http://localhost:8080/base'
+const url = '{{host}}/base'
 
-#### input
+const socket = io(url)
 
-Type: `string`
+socket.on('connect', () => {
+	socket.emit('join', { room: "play1", profile: { b: 'c'} })
+	socket.emit('msg', { a: 'b', b: 'c' })
+})
 
-Lorem ipsum.
+```
 
-#### options
-
-##### foo
-
-Type: `boolean`<br>
-Default: `false`
-
-Lorem ipsum.
 
 
 ## License
