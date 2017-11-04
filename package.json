@@ -1,7 +1,7 @@
 {
-	"name": "general-websocket-server",
-	"version": "1.0.0",
-	"description": "SmaSketch node socket server",
+	"name": "gwss",
+	"version": "1.0.1",
+	"description": "General purpose WebSocket Server",
 	"license": "MIT",
 	"repository": "elzup/smasketch-server",
 	"author": {
@@ -14,21 +14,16 @@
 		"test": "mocha"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=9"
 	},
-	"files": [
-		"index.js"
-	],
-	"keywords": [
-		""
-	],
+	"files": ["index.js"],
+	"keywords": [""],
 	"dependencies": {
 		"socket.io": "^2.0.4"
 	},
 	"devDependencies": {
 		"eslint": "^4.10.0",
 		"eslint-plugin-node": "^5.2.1",
-		"mocha": "^4.0.1",
 		"pify": "^3.0.0",
 		"pryjs": "^1.0.3",
 		"socket.io-client": "^2.0.4"
