@@ -3,6 +3,7 @@
 function gio(port, ns) {
 	const io = require('socket.io')(port)
 	const nsp = io.of(ns)
+	io.origins('*:*')
 
 	nsp.on('connection', socket => {
 		const { id } = socket
