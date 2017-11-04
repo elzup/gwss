@@ -28,6 +28,7 @@
 	"devDependencies": {
 		"eslint": "^4.10.0",
 		"eslint-plugin-node": "^5.2.1",
+		"mocha": "^4.0.1",
 		"pify": "^3.0.0",
 		"pryjs": "^1.0.3",
 		"socket.io-client": "^2.0.4"

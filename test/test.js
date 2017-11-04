@@ -8,6 +8,7 @@ const connect = require('socket.io-client')
 const gio = require(path.resolve(__dirname, '../src/'))
 const ns = '/test'
 let io, nsp
+const stepDelay = 100
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec))
 
@@ -21,54 +22,67 @@ beforeEach(() => {
 
 afterEach(() => {
 	io.close()
-	sleep(100).then()
+	sleep(stepDelay).then()
 })
 
 describe('server', () => {
 	it('should get connected', done => {
 		const first = connect(`http://localhost:8080${ns + i}`)
-		first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
-		first.on('msg', data => {
-			assert.equal(data.event, 'connected')
-			done()
-		})
-		sleep(100).then(() => {
+		first.on('connect', () => {
+			first.emit('join', { room: 'a-room', profile: { m: 'hello' } }, () => {})
+			first.on('msg', data => {
+				assert.equal(data.event, 'connected')
+				first.close()
+				second.close()
+				done()
+			})
 			const second = connect(`http://localhost:8080${ns + i}`)
-			second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
+			second.on('connect', () => {
+				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
+			})
 		})
 	})
 
 	it('should get message', done => {
 		const first = connect(`http://localhost:8080${ns + i}`)
 		first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
-		sleep(200).then(() => {
-			first.on('msg', data => {
-				assert.equal(data.hoge, 'fuga')
-				done()
+		first.on('connect', () => {
+			const second = connect(`http://localhost:8080${ns + i}`)
+			second.on('connect', () => {
+				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
+				sleep(stepDelay).then(() => {
+					first.on('msg', data => {
+						assert.deepEqual(data, { hoge: 'fuga' })
+						first.close()
+						second.close()
+						done()
+					})
+				})
+				sleep(stepDelay * 2).then(() => {
+					second.emit('msg', { hoge: 'fuga' })
+				})
 			})
-		})
-
-		const second = connect(`http://localhost:8080${ns + i}`)
-		second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
-		sleep(400).then(() => {
-			second.emit('msg', { hoge: 'fuga' })
 		})
 	})
 
 	it('should get disconnect', done => {
 		const first = connect(`http://localhost:8080${ns + i}`)
-		first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
-		sleep(100).then(() => {
-			first.on('msg', data => {
-				assert.equal(data.event, 'disconnect')
-				done()
+		first.on('connect', () => {
+			first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
+			const second = connect(`http://localhost:8080${ns + i}`)
+			second.on('connect', () => {
+				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
+				sleep(stepDelay).then(() => {
+					first.on('msg', data => {
+						assert.equal(data.event, 'disconnect')
+						first.close()
+						done()
+					})
+				})
+				sleep(stepDelay * 2).then(() => {
+					second.close()
+				})
 			})
-		})
-
-		const second = connect(`http://localhost:8080${ns + i}`)
-		second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
-		sleep(200).then(() => {
-			second.close()
 		})
 	})
 })
