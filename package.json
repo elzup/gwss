@@ -16,9 +16,14 @@
 	"engines": {
 		"node": ">=9"
 	},
-	"files": ["index.js"],
-	"keywords": [""],
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		""
+	],
 	"dependencies": {
+		"mocha": "^4.0.1",
 		"socket.io": "^2.0.4"
 	},
 	"devDependencies": {
