@@ -15,11 +15,11 @@ function gio(port, ns) {
 			const { room, profile } = packet
 			console.log(' join: ' + room + ' << ' + id)
 			Object.assign(store, { room, profile })
-			socket.to(room).emit('msg', { event: 'connected', id })
+			socket.to(room).emit('msg', Object.assign(packet, { event: 'join', id }))
 		})
 
 		socket.on('msg', packet => {
-			nsp.to(store.room).emit('msg', packet)
+			nsp.to(store.room).emit('msg', Object.assign(packet, { id }))
 		})
 
 		socket.on('disconnect', packet => {

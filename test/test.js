@@ -26,19 +26,30 @@ afterEach(() => {
 })
 
 describe('server', () => {
-	it('should get connected', done => {
+	it('should get join', done => {
 		const first = connect(`http://localhost:8080${ns + i}`)
 		first.on('connect', () => {
-			first.emit('join', { room: 'a-room', profile: { m: 'hello' } }, () => {})
+			first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
 			first.on('msg', data => {
-				assert.equal(data.event, 'connected')
+				assert.ok('id' in data)
+				delete data.id
+				assert.deepEqual(data, {
+					room: 'a-room',
+					event: 'join',
+					profile: { m: 'yo' },
+					foo: 'bar',
+				})
 				first.close()
 				second.close()
 				done()
 			})
 			const second = connect(`http://localhost:8080${ns + i}`)
 			second.on('connect', () => {
-				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
+				second.emit('join', {
+					room: 'a-room',
+					profile: { m: 'yo' },
+					foo: 'bar',
+				})
 			})
 		})
 	})
@@ -52,6 +63,8 @@ describe('server', () => {
 				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
 				sleep(stepDelay).then(() => {
 					first.on('msg', data => {
+						assert.ok('id' in data)
+						delete data.id
 						assert.deepEqual(data, { hoge: 'fuga' })
 						first.close()
 						second.close()
@@ -74,6 +87,7 @@ describe('server', () => {
 				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
 				sleep(stepDelay).then(() => {
 					first.on('msg', data => {
+						assert.ok('id' in data)
 						assert.equal(data.event, 'disconnect')
 						first.close()
 						done()
