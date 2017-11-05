@@ -11,8 +11,13 @@ function gio(port, ns) {
 		const store = {}
 
 		socket.on('join', packet => {
-			socket.join(packet.room)
+			console.log(packet)
+			if (!packet) {
+				console.error(packet)
+				return
+			}
 			const { room, profile } = packet
+			socket.join(room)
 			console.log(' join: ' + room + ' << ' + id)
 			Object.assign(store, { room, profile })
 			socket.to(room).emit('msg', Object.assign(packet, { event: 'join', id }))
