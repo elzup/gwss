@@ -2,8 +2,7 @@
 Description = Web socket server gwss
 
 [Service]
-Movie Streaming
-ExecStart=(cd /home/pi/gwss && PORT=8080 npm start)
+ExecStart=/home/pi/gwss/gwss_start.sh
 Restart=always
 Type=simple
 
