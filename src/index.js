@@ -20,16 +20,15 @@ function gio(port, ns) {
 			socket.join(room)
 			console.log(' join: ' + room + ' << ' + id)
 			Object.assign(store, { room, profile })
-			socket.to(room).emit('msg', Object.assign(packet, { event: 'join', id }))
+			nsp.to(room).emit('msg', Object.assign(packet, { event: 'join', id }))
 		})
 
 		socket.on('msg', packet => {
 			nsp.to(store.room).emit('msg', Object.assign(packet, { id }))
 		})
 
-		socket.on('disconnect', packet => {
-			console.log(packet)
-			socket.to(store.room).emit('msg', { event: 'disconnect', id })
+		socket.on('disconnect', () => {
+			nsp.to(store.room).emit('msg', { event: 'disconnect', id })
 			console.log('dis : ' + id)
 		})
 	})
