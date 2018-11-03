@@ -1,1 +1,3 @@
-(cd /home/pi/gwss && PORT=8080 npm start)
+#!/bin/bash
+PORT=8080
+/usr/local/bin/node /home/pi/gwss/index.js

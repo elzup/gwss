@@ -3,6 +3,8 @@ Description = Web socket server gwss
 
 [Service]
 ExecStart=/home/pi/gwss/gwss_start.sh
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill $MAINPID
 Restart=always
 Type=simple
 
