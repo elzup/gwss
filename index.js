@@ -1,5 +1,6 @@
 'use strict'
 
+const http = require('http').globalAgent.maxSockets = 1000
 const gio = require('./src')
 
 const { PORT = 80 } = process.env
