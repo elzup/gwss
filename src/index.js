@@ -9,22 +9,10 @@ function gio(port, ns) {
 		const { id } = socket
 		console.log('new : ' + id)
 		const store = {}
+		socket.join('log')
 
-		socket.on('join', packet => {
-			console.log(packet)
-			if (!packet) {
-				console.error(packet)
-				return
-			}
-			const { room, profile } = packet
-			socket.join(room)
-			console.log(' join: ' + room + ' << ' + id)
-			Object.assign(store, { room, profile })
-			nsp.to(room).emit('msg', Object.assign(packet, { event: 'join', id }))
-		})
-
-		socket.on('msg', packet => {
-			nsp.to(store.room).emit('msg', Object.assign(packet, { id }))
+		socket.on('log', packet => {
+			nsp.to('log').emit('log', Object.assign(packet, { id }))
 		})
 
 		socket.on('disconnect', () => {
