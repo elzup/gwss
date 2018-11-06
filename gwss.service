@@ -1,12 +1,14 @@
 [Unit]
 Description = Web socket server gwss
+After=syslog.target
 
 [Service]
+Type=simple
 ExecStart=/home/pi/gwss/gwss_start.sh
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill $MAINPID
 Restart=always
-Type=simple
+StandardOutput=null
 
 [Install]
 WantedBy=multi-user.target
