@@ -33,6 +33,9 @@ describe('server', () => {
 			first.on('msg', data => {
 				assert.ok('id' in data)
 				delete data.id
+				if (data.profile.m === 'hello') {
+					return
+				}
 				assert.deepEqual(data, {
 					room: 'a-room',
 					event: 'join',
