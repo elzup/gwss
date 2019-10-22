@@ -1,4 +1,4 @@
-/* global describe, before, it */
+/* global describe, beforeEach, afterEach, it */
 'use strict'
 
 const path = require('path')
@@ -7,7 +7,7 @@ const connect = require('socket.io-client')
 
 const gio = require(path.resolve(__dirname, '../src/'))
 const ns = '/test'
-let io, nsp
+let io
 const stepDelay = 100
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec))
@@ -17,7 +17,6 @@ beforeEach(() => {
 	i++
 	const p = gio(8080, ns + i)
 	io = p.io
-	nsp = p.nsp
 })
 
 afterEach(() => {

@@ -7,7 +7,7 @@
 	"author": {
 		"name": "elzup",
 		"email": "guild0105@gmail.com",
-		"url": "elzup.com"
+		"url": "htts://elzup.com"
 	},
 	"scripts": {
 		"start": "node index.js",
