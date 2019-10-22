@@ -3,10 +3,12 @@
 function gio(port, ns) {
 	const io = require('socket.io')(port)
 	const nsp = io.of(ns)
+
 	io.origins('*:*')
 
 	nsp.on('connection', socket => {
 		const { id } = socket
+
 		console.log('new : ' + id)
 		const store = {}
 
@@ -17,6 +19,7 @@ function gio(port, ns) {
 				return
 			}
 			const { room, profile } = packet
+
 			socket.join(room)
 			console.log(' join: ' + room + ' << ' + id)
 			Object.assign(store, { room, profile })

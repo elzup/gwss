@@ -4,18 +4,21 @@
 const path = require('path')
 const assert = require('assert')
 const connect = require('socket.io-client')
+const gio = require('../src/')
 
-const gio = require(path.resolve(__dirname, '../src/'))
 const ns = '/test'
+
 let io
 const stepDelay = 100
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec))
 
 let i = 0
+
 beforeEach(() => {
 	i++
 	const p = gio(8080, ns + i)
+
 	io = p.io
 })
 
@@ -27,6 +30,7 @@ afterEach(() => {
 describe('server', () => {
 	it('should get join', done => {
 		const first = connect(`http://localhost:8080${ns + i}`)
+
 		first.on('connect', () => {
 			first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
 			first.on('msg', data => {
@@ -46,6 +50,7 @@ describe('server', () => {
 				done()
 			})
 			const second = connect(`http://localhost:8080${ns + i}`)
+
 			second.on('connect', () => {
 				second.emit('join', {
 					room: 'a-room',
@@ -58,9 +63,11 @@ describe('server', () => {
 
 	it('should get message', done => {
 		const first = connect(`http://localhost:8080${ns + i}`)
+
 		first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
 		first.on('connect', () => {
 			const second = connect(`http://localhost:8080${ns + i}`)
+
 			second.on('connect', () => {
 				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
 				sleep(stepDelay).then(() => {
@@ -82,9 +89,11 @@ describe('server', () => {
 
 	it('should get disconnect', done => {
 		const first = connect(`http://localhost:8080${ns + i}`)
+
 		first.on('connect', () => {
 			first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
 			const second = connect(`http://localhost:8080${ns + i}`)
+
 			second.on('connect', () => {
 				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
 				sleep(stepDelay).then(() => {
