@@ -28,8 +28,8 @@
 		"socket.io": "2.3.0"
 	},
 	"devDependencies": {
-		"eslint": "6.5.1",
-		"eslint-config-nzap": "1.2.4",
+		"eslint": "6.6.0",
+		"eslint-config-nzap": "1.2.5",
 		"pify": "4.0.1",
 		"socket.io-client": "2.3.0"
 	}
