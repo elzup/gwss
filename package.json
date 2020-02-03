@@ -24,7 +24,7 @@
 		""
 	],
 	"dependencies": {
-		"mocha": "6.2.2",
+		"mocha": "7.0.1",
 		"socket.io": "2.3.0"
 	},
 	"devDependencies": {
