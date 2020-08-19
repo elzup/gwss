@@ -11,7 +11,7 @@ const ns = '/test'
 let io
 const stepDelay = 100
 
-const sleep = msec => new Promise(resolve => setTimeout(resolve, msec))
+const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec))
 
 let i = 0
 
@@ -28,12 +28,12 @@ afterEach(() => {
 })
 
 describe('server', () => {
-	it('should get join', done => {
+	it('should get join', (done) => {
 		const first = connect(`http://localhost:8080${ns + i}`)
 
 		first.on('connect', () => {
 			first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
-			first.on('msg', data => {
+			first.on('msg', (data) => {
 				assert.ok('id' in data)
 				delete data.id
 				if (data.profile.m === 'hello') {
@@ -61,7 +61,7 @@ describe('server', () => {
 		})
 	})
 
-	it('should get message', done => {
+	it('should get message', (done) => {
 		const first = connect(`http://localhost:8080${ns + i}`)
 
 		first.emit('join', { room: 'a-room', profile: { m: 'hello' } })
@@ -71,7 +71,7 @@ describe('server', () => {
 			second.on('connect', () => {
 				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
 				sleep(stepDelay).then(() => {
-					first.on('msg', data => {
+					first.on('msg', (data) => {
 						assert.ok('id' in data)
 						delete data.id
 						assert.deepEqual(data, { hoge: 'fuga' })
@@ -87,7 +87,7 @@ describe('server', () => {
 		})
 	})
 
-	it('should get disconnect', done => {
+	it('should get disconnect', (done) => {
 		const first = connect(`http://localhost:8080${ns + i}`)
 
 		first.on('connect', () => {
@@ -97,7 +97,7 @@ describe('server', () => {
 			second.on('connect', () => {
 				second.emit('join', { room: 'a-room', profile: { m: 'yo' } })
 				sleep(stepDelay).then(() => {
-					first.on('msg', data => {
+					first.on('msg', (data) => {
 						assert.ok('id' in data)
 						assert.equal(data.event, 'disconnect')
 						first.close()

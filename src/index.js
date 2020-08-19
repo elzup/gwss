@@ -6,13 +6,13 @@ function gio(port, ns) {
 
 	io.origins('*:*')
 
-	nsp.on('connection', socket => {
+	nsp.on('connection', (socket) => {
 		const { id } = socket
 
 		console.log('new : ' + id)
 		const store = {}
 
-		socket.on('join', packet => {
+		socket.on('join', (packet) => {
 			console.log(packet)
 			if (!packet) {
 				console.error(packet)
@@ -26,7 +26,7 @@ function gio(port, ns) {
 			nsp.to(room).emit('msg', Object.assign(packet, { event: 'join', id }))
 		})
 
-		socket.on('msg', packet => {
+		socket.on('msg', (packet) => {
 			nsp.to(store.room).emit('msg', Object.assign(packet, { id }))
 		})
 
